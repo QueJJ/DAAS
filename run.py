@@ -33,8 +33,8 @@ targets = [1, 2, 4, 5]
 for s in sources:
     for t in targets:
         paths.extend(list(nx.all_simple_paths(G, source=s, target=t)))
-contexts = [np.arange(30, -10, -3), np.arange(30, -10, -3), np.arange(60, -10, -3),
-            np.arange(30, -10, -3), np.arange(30, -10, -3), np.arange(30, -10, -3)]
+contexts = [np.arange(30, -1, -3), np.arange(30, -1, -3), np.arange(60, -1, -3),
+            np.arange(30, -1, -3), np.arange(30, -1, -3), np.arange(30, -1, -3)]
 
 # set the upper bound of pods for each service
 UB = 8
@@ -112,7 +112,9 @@ def run():
             
             reward = 42 - np.sum([pod_0,pod_1,pod_2,pod_3,pod_4,pod_5])
             el = max(segments_latency)
-            model.update(reward, segments_latency)
+            # scale the segments latency for better learning
+            scaled_segments_latency= segments_latency / 1000
+            model.update(reward, scaled_segments_latency)
 
             reward_list.append(reward)
             latency_list.append(el)
