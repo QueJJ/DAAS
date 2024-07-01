@@ -20,4 +20,4 @@ Run the following command to see the performance of DAAS:
 `python run.py`
 
 ### Customized microservice application
-To run your customized microservice application, you need to modify the **graph**
+To run your customized microservice application, you need to modify the **DAG graph info** in the file *run.py* to fit to your application's DAG.
