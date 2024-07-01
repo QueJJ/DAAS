@@ -6,9 +6,10 @@ import matplotlib.pyplot as plt
 import random as rand
 import networkx as nx
 
-sla = 100
-GBound = 600
-ResourcePool = 42
+# scaled sla and bound
+sla = 10
+GBound = 60
+ResourceLimit = 42
 
 class DAAS(object):
     def __init__(self, meshgrid, contexts, G, paths):
@@ -99,7 +100,7 @@ class DAAS(object):
         for i in self.X_grid:
             e2eLatency, position, parentcontext = self.getE2eLatencyP2C(i)
             tmpConfig.append(i)
-            tmpValue.append(ResourcePool - np.sum(i) - self.Q * max(e2eLatency - sla, 0))
+            tmpValue.append(ResourceLimit - np.sum(i) - self.Q * max(e2eLatency - sla, 0))
             tmpPosition.append(position)
             tmpParentContext.append(parentcontext)
         idx = np.argmax(tmpValue)
@@ -111,17 +112,18 @@ class DAAS(object):
             self.XList[i].append(np.array([bestPosition[i]+1]))
         return bestConfig
 
-    def update(self, resources, latencys, e2e_latency):
+    def update(self, resources, segments_latency):
+        cp_latency = max(segments_latency)
         for i in range(self.N):
-            self.latencysList[i].append(np.clip(latencys[i], min(self.contexts[i]), max(self.contexts[i])))
-
+            self.latencysList[i].append(np.clip(segments_latency[i], min(self.contexts[i]), max(self.contexts[i])))
+        
         #update beta
         gamma = 1*math.log(self.round+1)
         betag = self.Bg + self.Rg * np.sqrt(2 * (gamma + 1 + np.log(2 / self.p)))
 
         # update penalty
         eta = 1*math.sqrt(self.round)
-        self.Q = max(self.Q + max(e2e_latency-sla, 0), eta)
+        self.Q = max(self.Q + max(cp_latency - sla, 0), eta)
 
         # GP update
         for i in range(self.N):
