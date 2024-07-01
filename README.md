@@ -5,7 +5,19 @@
 * Set up the Python environment in [environment.yml](https://github.com/QueJJ/DAAS/edit/main/environment.yml)
 * Install [Prometheus](https://prometheus.io/) on your Kubernetes cluster to observe Jaeger's overhead.
 
+## Modules
+We implement different modules of DAAS in separate Python scripts as follows:
+
+* Algorithm: Main algorithm of DAAS, including Learning and Decision module.
+* Jaeger Collector: We use Jaeger to trace the latency of the microservice application. DAAS collects per-service tracing data through Jaeger's exposed RESTful APIs
+* Resource Manager: We implement the pod number controller by leveraging the Kubernetes Python client.
+* Workload Generator: We use the commonly used HTTP benchmarking tool wrk2 as the workload generator to send requests. Wrk2 provides APIs for setting different thread numbers, the number of HTTP connections, the number of requests, the duration, and etc. You can change these parameters according to your cluster configuration.
+
 ## Experiments
+### Results in paper
 Run the following command to see the performance of DAAS:
 
 `python run.py`
+
+### Customized microservice application
+To run your customized microservice application, you need to modify the **graph**
