@@ -1,4 +1,4 @@
-name: pobo
+name: daas
 channels:
   - defaults
 dependencies:
