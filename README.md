@@ -24,3 +24,4 @@ To run your customized microservice application, you need to modify the **DAG gr
 
 ## Run Derm Algorithm
 Modify the rate, microservice name in the Derm, and select different sample allocations to train models, and select the best model.
+git: https://github.com/liaochan/Derm
