@@ -21,3 +21,6 @@ Run the following command to see the performance of DAAS:
 
 ### Customized microservice application
 To run your customized microservice application, you need to modify the **DAG graph info** in the file *run.py* to fit to your application's DAG.
+
+## Run Derm Algorithm
+Modify the rate, microservice name in the Derm, and select different sample allocations to train models, and select the best model.
